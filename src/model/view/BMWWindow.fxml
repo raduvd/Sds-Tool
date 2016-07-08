@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.view.BMWWindowController">
+   <children>
+      <TabPane layoutX="-5.0" prefHeight="700.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="English">
+            <content>
+                  <AnchorPane>
+                     <children>
+                        <ScrollPane layoutX="460.0" prefHeight="629.0" prefWidth="440.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="460.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="640.0" prefWidth="581.0">
+                                 <padding>
+                                    <Insets bottom="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <children>
+                                    <Button layoutX="14.0" layoutY="126.0" mnemonicParsing="false" onAction="#streetButton" prefHeight="82.0" prefWidth="122.0" text="Street" />
+                                    <Button layoutX="14.0" layoutY="36.0" mnemonicParsing="false" onAction="#destinationInputButton" prefHeight="82.0" prefWidth="122.0" text="Destination Input" />
+                                    <Button layoutX="137.0" layoutY="36.0" mnemonicParsing="false" onAction="#editButton" prefHeight="25.0" prefWidth="38.0" text="Edit" />
+                                    <Button layoutX="137.0" layoutY="126.0" mnemonicParsing="false" onAction="#editButton" prefHeight="25.0" prefWidth="38.0" text="Edit" />
+                                    <Label layoutX="11.0" layoutY="1.0" prefHeight="26.0" prefWidth="128.0" text="Predefined Commands" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                        <GridPane layoutX="15.0" layoutY="95.0" prefHeight="99.0" prefWidth="402.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="297.0" minWidth="10.0" prefWidth="297.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="63.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="64.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <TextField fx:id="inputField1" prefHeight="37.0" prefWidth="271.0" promptText="Insert Text" />
+                              <Button fx:id="playVariableButton1" mnemonicParsing="false" onAction="#playButton1" prefHeight="36.0" prefWidth="42.0" text="Play" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="12.0" />
+                                 </GridPane.margin>
+                              </Button>
+                              <TextField fx:id="inputField2" prefHeight="37.0" prefWidth="271.0" promptText="Insert Text" GridPane.rowIndex="1" />
+                              <Button fx:id="playVariableButton2" mnemonicParsing="false" onAction="#playButton2" prefHeight="36.0" prefWidth="40.0" text="Play" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="12.0" />
+                                 </GridPane.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#spellButton1" prefHeight="36.0" prefWidth="45.0" text="Spell" GridPane.columnIndex="2">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" />
+                                 </GridPane.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#spellButton2" prefHeight="36.0" prefWidth="45.0" text="Spell" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" />
+                                 </GridPane.margin>
+                              </Button>
+                           </children>
+                        </GridPane>
+                        <ProgressIndicator fx:id="ind" layoutX="363.0" layoutY="24.0" prefHeight="44.0" prefWidth="32.0" progress="0.0" />
+                        <Label fx:id="inProgressLabel" layoutX="275.0" layoutY="28.0" text="Audio Progress" />
+                        <Label layoutX="75.0" layoutY="15.0" prefHeight="44.0" prefWidth="136.0" text="Project Name">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <ButtonBar buttonMinWidth="25.0" layoutY="567.0" prefHeight="47.0" prefWidth="457.0">
+                          <buttons>
+                            <Button fx:id="numberVariableButton1" minWidth="0.0" mnemonicParsing="false" onAction="#numberButton1" prefHeight="40.0" prefWidth="41.0" text="1" />
+                              <Button fx:id="numberVariableButton2" layoutX="425.0" layoutY="23.0" minWidth="0.0" mnemonicParsing="false" onAction="#numberButton2" prefHeight="40.0" prefWidth="41.0" text="2" />
+                              <Button fx:id="numberVariableButton3" layoutX="425.0" layoutY="23.0" minWidth="0.0" mnemonicParsing="false" onAction="#numberButton3" prefHeight="40.0" prefWidth="41.0" text="3" />
+                              <Button fx:id="numberVariableButton4" layoutX="323.0" layoutY="23.0" minWidth="0.0" mnemonicParsing="false" onAction="#numberButton4" prefHeight="40.0" prefWidth="41.0" text="4" />
+                              <Button fx:id="numberVariableButton5" layoutX="272.0" layoutY="23.0" minWidth="0.0" mnemonicParsing="false" onAction="#numberButton5" prefHeight="40.0" prefWidth="41.0" text="5" />
+                              <Button fx:id="numberVariableButton6" layoutX="221.0" layoutY="23.0" minWidth="0.0" mnemonicParsing="false" onAction="#numberButton6" prefHeight="40.0" prefWidth="41.0" text="6" />
+                              <Button fx:id="numberVariableButton7" layoutX="170.0" layoutY="23.0" minWidth="0.0" mnemonicParsing="false" onAction="#numberButton7" prefHeight="40.0" prefWidth="41.0" text="7" />
+                              <Button fx:id="numberVariableButton8" layoutX="119.0" layoutY="23.0" minWidth="0.0" mnemonicParsing="false" onAction="#numberButton8" prefHeight="40.0" prefWidth="41.0" text="8" />
+                              <Button fx:id="numberVariableButton9" layoutX="68.0" layoutY="23.0" minWidth="0.0" mnemonicParsing="false" onAction="#numberButton9" prefHeight="40.0" prefWidth="41.0" text="9" />
+                          </buttons>
+                        </ButtonBar>
+                        <TextField fx:id="numberInputField" layoutX="109.0" layoutY="621.0" prefHeight="37.0" prefWidth="214.0" promptText="Insert Number" />
+                        <Button layoutX="349.0" layoutY="621.0" mnemonicParsing="false" onAction="#playCustomNumber" prefHeight="36.0" prefWidth="107.0" text="Play" />
+                        <Label layoutX="11.0" layoutY="541.0" prefHeight="26.0" prefWidth="128.0" text="Predefined Numbers" />
+                        <Label layoutX="10.0" layoutY="627.0" prefHeight="26.0" prefWidth="99.0" text="Custom Number" AnchorPane.bottomAnchor="10.0" />
+                        <Label layoutX="15.0" layoutY="76.0" prefHeight="26.0" prefWidth="128.0" text="Custom Commands" />
+                        <Button layoutX="13.0" layoutY="19.0" mnemonicParsing="false" onAction="#projectOverviewButton" prefHeight="26.0" prefWidth="46.0" text="Back " />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Lang2">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <ScrollPane layoutX="432.0" layoutY="77.0" prefHeight="651.0" prefWidth="453.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="432.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="716.0" prefWidth="581.0">
+                                 <padding>
+                                    <Insets bottom="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <children>
+                                    <Button layoutX="14.0" layoutY="104.0" mnemonicParsing="false" onAction="#streetButton" prefHeight="82.0" prefWidth="122.0" text="##" />
+                                    <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#destinationInputButton" prefHeight="82.0" prefWidth="122.0" text="##" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </ScrollPane>
+                        <GridPane layoutX="15.0" layoutY="95.0" prefHeight="130.0" prefWidth="406.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="297.0" minWidth="10.0" prefWidth="297.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="63.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <TextField prefHeight="37.0" prefWidth="271.0" />
+                              <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="54.0" text="Play" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="15.0" />
+                                 </GridPane.margin>
+                              </Button>
+                              <TextField prefHeight="37.0" prefWidth="271.0" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="54.0" text="Play" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="15.0" />
+                                 </GridPane.margin>
+                              </Button>
+                           </children>
+                        </GridPane>
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#projectOverviewButton" prefHeight="32.0" prefWidth="192.0" text="Back / Project Overview" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
