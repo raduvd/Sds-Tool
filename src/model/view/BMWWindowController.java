@@ -13,6 +13,9 @@ import javafx.util.Duration;
 //
 
 import java.io.IOException;
+
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -41,7 +44,7 @@ public class BMWWindowController {
 	@FXML
 	private TextField numberInputField;
 	@FXML
-	Label inProgressLabel = new Label();
+	Label inProgressLabel;
 	@FXML
 	private Button playVariableButton1;
 	@FXML
@@ -179,7 +182,7 @@ public class BMWWindowController {
 	private ProgressIndicator ind = new ProgressIndicator();
 
 	/*
-	 * ACEASTA METODA TREBUIE MUTATA IN ALTA CLASA, deoarece ea va mai fi
+	 * ACEASTA METODA TREBUIE MUTATA IN ALTA CLASA, dupa revizie amauntita, deoarece ea va mai fi
 	 * folosita si in PorcheProject si in altele.
 	 * 
 	 * Method that makes a thread (task) and ties it to a progress indicator. In
@@ -192,10 +195,10 @@ public class BMWWindowController {
 
 		Task<Void> task = new Task<Void>() {
 			@Override
-			public Void call() throws IOException {
+			public Void call() throws IOException, UnsupportedAudioFileException {
 				updateProgress(-1, 10);
-				gw.getWave(input, "notImplemented");
-				player.playLocalSound(input);
+				//parametrul eng trebuie schimbat de la Limba la Limba
+				player.playInputStream(gw.getWave(input, "notImplemented","eng"));
 				updateProgress(10, 10);
 				Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> updateProgress(0, 10)));
 				timeline.play();
@@ -218,11 +221,12 @@ public class BMWWindowController {
 	 * asta doar pentru butoanele cu numere
 	 */
 	public void playFromResourceButtons(String input) {
+		inProgressLabel.setText("In Progress...");
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws IOException {
 				updateProgress(-1, 10);
-				gw.getWave(input, "notImplemented");
+				gw.getWave(input, "notImplemented","eng");
 				player.playSound("/" + input + ".wav/");
 				updateProgress(10, 10);
 				Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> updateProgress(0, 10)));
@@ -233,6 +237,7 @@ public class BMWWindowController {
 		};
 		ind.progressProperty().bind(task.progressProperty());
 		new Thread(task).start();
+		inProgressLabel.setText("Audio Progress");
 	}
 
 	/*

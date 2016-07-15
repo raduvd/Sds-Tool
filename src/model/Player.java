@@ -1,5 +1,6 @@
 package model;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -10,7 +11,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
+import java.io.InputStream;
 
 public class Player {
 
@@ -20,8 +23,47 @@ public class Player {
 	private static AudioFormat audioFormat;
 	private static SourceDataLine sourceLine;
 
+	public void playInputStream(InputStream is)
+			throws UnsupportedAudioFileException, IOException {
+		
+		// creez un audio stream din inputstream
+		audioStream = AudioSystem.getAudioInputStream(is);
+		// de aici in continuare e la fel ca inainte
+		audioFormat = audioStream.getFormat();
+
+		DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
+		try {
+			sourceLine = (SourceDataLine) AudioSystem.getLine(info);
+			sourceLine.open(audioFormat);
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+			System.exit(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+
+		sourceLine.start();
+		int nBytesRead = 0;
+		byte[] abData = new byte[BUFFER_SIZE];
+		while (nBytesRead != -1) {
+			try {
+				nBytesRead = audioStream.read(abData, 0, abData.length);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (nBytesRead >= 0) {
+				@SuppressWarnings("unused")
+				int nBytesWritten = sourceLine.write(abData, 0, nBytesRead);
+			}
+		}
+		sourceLine.drain();
+		sourceLine.close();
+	}
+
 	/**
-	 * Temporary method, for tests, to be deleted Face play la un wav de pe PC,
+	 * Temporary method, for tests, to be deleted. Face play la un wav de pe PC,
 	 * in aplicatia finala nu voi avea nevoie de asa ceva voi folosi metoda
 	 * playSound
 	 */
@@ -58,13 +100,13 @@ public class Player {
 		}
 
 		sourceLine.start();
-		
+
 		int nBytesRead = 0;
 		byte[] abData = new byte[BUFFER_SIZE];
 		while (nBytesRead != -1) {
 			try {
 				nBytesRead = audioStream.read(abData, 0, abData.length);
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -74,10 +116,10 @@ public class Player {
 
 			}
 		}
-		
+
 		sourceLine.drain();
 		sourceLine.close();
-		
+
 	}
 
 	/**
@@ -127,7 +169,7 @@ public class Player {
 		while (nBytesRead != -1) {
 			try {
 				nBytesRead = audioStream.read(abData, 0, abData.length);
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
