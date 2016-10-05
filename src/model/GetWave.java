@@ -1,109 +1,72 @@
 package model;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
 
 import com.ibm.watson.developer_cloud.text_to_speech.v1.TextToSpeech;
 import com.ibm.watson.developer_cloud.text_to_speech.v1.model.AudioFormat;
 import com.ibm.watson.developer_cloud.text_to_speech.v1.model.Voice;
-import com.ibm.watson.developer_cloud.text_to_speech.v1.util.WaveUtils;
-
-import model.Main;
-import model.Database;
 
 /**
- * @author radu.vancea
+ * @author radu.vancea Class that connects to IBM API and gets can get a byte
+ *         array
  * 
  */
 public class GetWave {
 
-	private String username = "d825669b-1183-4d32-9101-fd7d140e8b17";// "5b75716c-b89d-4794-8703-72122fea2aae";
-	private String password = "kwG6w3F8TTji";// "Sb7PMA47Mqds";
 	private TextToSpeech synthesizer;
-	public Main mainApp = new Main();
 
 	public GetWave() {
+
 		synthesizer = new TextToSpeech();
+		String username = "63ca9cce-3a2a-4db6-b0bd-85a28e9119c5";
+		String password = "6jsRyXi3wumC";
 		synthesizer.setUsernameAndPassword(username, password);
 	}
 
 	/**
-	 * metoda aceasta practic face contact cu IBM server, dar aditonal eas si:
-	 * insereaza in db si apoi face retreive din db si apoi face return la
-	 * bytes, pe care ii transforma in inputstream, chestie ce trebuie
-	 * modificata sa ramana doar IBM server contact
+	 * Connects to IBM API and returns a byte array that is representing a wave
 	 * 
-	 * @param path
-	 *            reprezinta locul unde sa fie downoadata acest output(in DB sau
-	 *            in ceva loc specific sau nume specific..TODO here)
 	 * @param name
-	 *            reprezinta ce String se va transforma in wav si deasemenea ce
-	 *            nume va avea acest wave
+	 *            the string that is going to be transformed into wave
+	 * @param language
+	 *            the language of this returned wave
 	 */
-	public InputStream getWave(String name, String path, String collection) throws IOException {
+	public byte[] getWave(String name, String language) throws IOException {
 
-		// TODO:acest input stream pe nume in, sa il stochez diret intr-un array
-		// de bytes
+		InputStream in = synthesizer.synthesize(name, setVoice(language), AudioFormat.WAV).execute();
+		byte[] wave = new byte[1024];
+		wave = IOUtils.toByteArray(in);
+		return wave;
 
-		InputStream in = synthesizer.synthesize(name, Voice.EN_LISA, AudioFormat.WAV).execute();
-		// test, am transformat input stream in bytes, apoi acestia trebuie sa
-		// ii stochez in DB si apoi ca sa le dau play ii transform din nou in
-		// inputstream
-		// a e variabila care contine array de bites
-		byte[] sound = new byte[1024];
-		sound = IOUtils.toByteArray(in);
-		Database db = new Database();
-		db.insertAudioInDatabase(sound, name, collection);
-
-		InputStream is = new ByteArrayInputStream(db.getAudioFromDatabase(name, collection));
-
-		// File f = new File(name + ".wav");
-		// writeToFile(WaveUtils.reWriteWaveHeader(is), f);
-		return is;
-		//
-		//
 	}
 
 	/**
-	 * The string that is inputed for spelling is going to be formated like: a -
-	 * b - c
+	 * Metoda care va seta limba la wave
 	 * 
-	 * @param name
-	 *            is the actual string that is transformed and returned by this
-	 *            method
+	 * @param language
+	 *            va fi mandatory "sp", "eng", "fr","de"
+	 * @return un obiect de tip Voice care va seta mai departe limba catre IBM
+	 *         API server
 	 */
-	public String spellFormat(String name) {
-
-		String formated = "";
-		for (int i = 0; i < name.length(); i++) {
-			formated = formated + name.substring(i, i + 1) + " - ";
+	private Voice setVoice(String language) {
+		Voice voice = new Voice();
+		switch (language) {
+		case "sp": 
 		}
-		formated = formated.substring(0, formated.length() - 2);
-		return formated;
+		//TO DO switch instead of ifs
+		if (language == "sp") {
+			voice = Voice.ES_LAURA;
+		} else if (language == "ger") {
+			voice = Voice.DE_BIRGIT;
+		} else if (language == "fr") {
+			voice = Voice.FR_RENEE;
+		} else {
+			voice = Voice.EN_ALLISON;
+		}
+		return voice;
 	}
 
-	/**
-	 * Write the input stream to a file
-	 */
-	private static void writeToFile(InputStream in, File file) {
-		try {
-			OutputStream out = new FileOutputStream(file);
-			// biti astia pe nume "buf" sa ii pun intr-un document din Mongodb
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
-			}
-			out.close();
-			in.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }

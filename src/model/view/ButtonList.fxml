@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="450.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60">
+   <children>
+      <ScrollPane layoutX="89.0" layoutY="39.0" prefHeight="461.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0">
+         <content>
+            <TableView prefHeight="638.0" prefWidth="433.0">
+              <columns>
+                <TableColumn prefWidth="432.0" text="Button name" />
+              </columns>
+            </TableView>
+         </content>
+      </ScrollPane>
+      <Label layoutX="8.0" layoutY="1.0" prefHeight="36.0" prefWidth="402.0" text="Select a button name from below, that you want to modify:" />
+   </children>
+</AnchorPane>

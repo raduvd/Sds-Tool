@@ -1,72 +1,264 @@
 package model.view;
 
-//teste
-import javafx.concurrent.Task;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-//
 
 import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.scene.Scene;
-import model.GetWave;
 import model.Main;
-import model.Player;
+import model.Strings;
+import model.Controller;
 
 /**
+ * CLasa asta trebuie modificata complect, am scris multe chesti de test in ea.
+ * Orice metoda din aceasta clasa, care ramane definitiva, trebuie reverificata
+ * si facut o descriere javadoc.
+ * 
  * @author radu.vancea
  *
  */
 public class BMWWindowController {
 
-	private Player player = new Player();
-	private GetWave gw = new GetWave();
 	private Main mainApp = new Main();
+	private Controller controller = new Controller();
+	private Strings strings;
+	private Main main;
+	private Thread playThread;
+	private boolean threadIsFree;
+	private String buttonClicked;
+
+	public BMWWindowController() {
+
+		strings = new Strings();
+		main = new Main();
+		threadIsFree = true;
+		buttonClicked = "";
+
+	}
 
 	@FXML
-	private TextField inputField1;
+	private ProgressIndicator ind = new ProgressIndicator();
 	@FXML
-	private TextField inputField2;
+	private TextField field1;
+	@FXML
+	private TextField field2;
+	@FXML
+	private TextField field3;
+	@FXML
+	private TextField field4;
 	@FXML
 	private TextField numberInputField;
 	@FXML
 	Label inProgressLabel;
+
+	// Tests
+	// Tests
+	// Tests
+	// Tests
+
+	/**
+	 * metoda de thread pentru play buttons
+	 * 
+	 * * Verificarea stringului sa nu fie mai lung sau mai scurt, trebuie facuta
+	 * in afara unui thread. Deci e mai bine de facut in afara threadului.
+	 * 
+	 */
+	public void playThread(String name, String language) throws IOException, LineUnavailableException {
+		if (threadIsFree) {
+			if (strings.verifyString(name)) {
+				threadIsFree = false;
+				Task<Void> task = new Task<Void>() {
+					@Override
+					public Void call() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+						updateProgress(-1, 10);
+						controller.customButtons(name, language);
+						updateProgress(10, 10);
+						Timeline timeline = new Timeline(
+								new KeyFrame(Duration.millis(1000), ae -> updateProgress(0, 10)));
+						timeline.play();
+						// test
+						threadIsFree = true;
+						//
+						return null;
+					}
+				};
+
+				playThread = new Thread(task);
+				playThread.start();
+				ind.progressProperty().bind(task.progressProperty());
+			} else
+
+			{
+				main.verifyAlert();
+			}
+		} else {
+			main.taskInProgress();
+		}
+	}
+
+	/**
+	 * metoda de thread pentru predefined buttons.
+	 * 
+	 * 
+	 */
+	public void playPredefinedThread(String name, String language) throws IOException, LineUnavailableException {
+		if (threadIsFree) {
+			threadIsFree = false;
+			Task<Void> task = new Task<Void>() {
+				@Override
+				public Void call() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+					updateProgress(-1, 10);
+					controller.predefinedButtons(name, language);
+					updateProgress(10, 10);
+					Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> updateProgress(0, 10)));
+					timeline.play();
+					threadIsFree = true;
+					return null;
+				}
+			};
+
+			playThread = new Thread(task);
+			playThread.start();
+			ind.progressProperty().bind(task.progressProperty());
+		} else
+
+		{
+			main.taskInProgress();
+		}
+	}
+
 	@FXML
-	private Button playVariableButton1;
+	private void initialize() {
+		Button[] buttons = { play1, play2, play3, play4, spell1, spell2, spell3, spell4, defined_1, defined_2, defined_3, defined_4, defined_5, defined_6, defined_7, defined_8,
+				defined_9, defined1, defined2, defined_yes, defined_no };
+		for (int i = 0; i < buttons.length; i++) {
+			setButtonAction(buttons[i]);
+		}
+
+	}
+
+	public void setButtonAction(Button button) {
+		button.setOnAction((event) -> {
+			buttonClicked = button.getId();
+			if (buttonClicked.startsWith("p")) {
+				try {
+					playThread(getField(buttonClicked), "eng");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (buttonClicked.startsWith("s")) {
+				try {
+					playThread(strings.spellFormat(getField(buttonClicked)), "eng");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (buttonClicked.startsWith("d")) {
+				try {
+					playPredefinedThread(button.getText().toLowerCase(), "eng");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Metoda in functie de ce valoare avem in buttonclicked
+	 * 
+	 * @param buttonClicked
+	 *            e un String care reprezinta numele butonului care e clickuit
+	 * @return the string from the field corresponding to buttonClicked
+	 */
+	public String getField(String buttonClicked) {
+		char fieldNumber = buttonClicked.charAt(buttonClicked.length() - 1);
+		TextField selectedField;
+		switch (fieldNumber) {
+		case '1':
+			selectedField = field1;
+			break;
+		case '2':
+			selectedField = field2;
+			break;
+		case '3':
+			selectedField = field3;
+			break;
+		case '4':
+			selectedField = field4;
+			break;
+		default:
+			selectedField = field2;// care sa il pun default?
+			break;
+		}
+
+		String input = selectedField.getText();
+		return input;
+	}
+
+	// Tests
+	// Tests
 	@FXML
-	private Button playVariableButton2;
+	private Button play1;
 	@FXML
-	private Button numberVariableButton1;
+	private Button play2;
 	@FXML
-	private Button numberVariableButton2;
+	private Button play3;
 	@FXML
-	private Button numberVariableButton3;
+	private Button play4;
 	@FXML
-	private Button numberVariableButton4;
+	private Button spell1;
 	@FXML
-	private Button numberVariableButton5;
+	private Button spell2;
 	@FXML
-	private Button numberVariableButton6;
+	private Button spell3;
 	@FXML
-	private Button numberVariableButton7;
+	private Button spell4;
 	@FXML
-	private Button numberVariableButton8;
+	private Button defined_1;
 	@FXML
-	private Button numberVariableButton9;
+	private Button defined_2;
+	@FXML
+	private Button defined_3;
+	@FXML
+	private Button defined_4;
+	@FXML
+	private Button defined_5;
+	@FXML
+	private Button defined_6;
+	@FXML
+	private Button defined_7;
+	@FXML
+	private Button defined_8;
+	@FXML
+	private Button defined_9;
+	@FXML
+	private Button defined_yes;
+	@FXML
+	private Button defined_no;
+	@FXML
+	private Button defined1;
+	@FXML
+	private Button defined2;
+	@FXML
+	private Button edit1;
 
 	@FXML
 	private void projectOverviewButton() {
@@ -74,86 +266,10 @@ public class BMWWindowController {
 		mainApp.showMainWindow();
 	}
 
-	@FXML
-	private void streetButton() {
-		player.playSound("/street.wav");
+	/**
+	 * Shows the Edit Prompt / Page
+	 */
 
-	}
-
-	@FXML
-	private void destinationInputButton() {
-		player.playSound("/destination input.wav");
-
-	}
-
-	@FXML
-	private void playButton1() throws IOException {
-		playButtons(inputField1.getText());
-
-	}
-
-	@FXML
-	private void playButton2() throws IOException {
-		playButtons(inputField2.getText());
-	}
-
-	@FXML
-	private void spellButton1() throws IOException {
-		playButtons(gw.spellFormat(inputField1.getText()));
-
-	}
-
-	@FXML
-	private void spellButton2() throws IOException {
-		playButtons(gw.spellFormat(inputField2.getText()));
-	}
-
-	@FXML
-	private void numberButton1() throws IOException {
-		playFromResourceButtons(numberVariableButton1.getText());
-	}
-
-	@FXML
-	private void numberButton2() throws IOException {
-		playFromResourceButtons(numberVariableButton2.getText());
-	}
-
-	@FXML
-	private void numberButton3() throws IOException {
-		playFromResourceButtons(numberVariableButton3.getText());
-	}
-
-	@FXML
-	private void numberButton4() throws IOException {
-		playFromResourceButtons(numberVariableButton4.getText());
-	}
-
-	@FXML
-	private void numberButton5() throws IOException {
-		playFromResourceButtons(numberVariableButton5.getText());
-	}
-
-	@FXML
-	private void numberButton6() throws IOException {
-		playFromResourceButtons(numberVariableButton6.getText());
-	}
-
-	@FXML
-	private void numberButton7() throws IOException {
-		playFromResourceButtons(numberVariableButton7.getText());
-	}
-
-	@FXML
-	private void numberButton8() throws IOException {
-		playFromResourceButtons(numberVariableButton8.getText());
-	}
-
-	@FXML
-	private void numberButton9() throws IOException {
-		playFromResourceButtons(numberVariableButton9.getText());
-	}
-
-	// Set the Edit button action (show the Edit Page), de revizuit
 	@FXML
 	public void editButton() {
 		try {
@@ -174,100 +290,4 @@ public class BMWWindowController {
 			e.printStackTrace();
 		}
 	}
-	////////// DE REVIZUIT TOAATA SECTIUNEA ASTA, e o sectiune de teste
-	//
-	//
-	//
-	@FXML
-	private ProgressIndicator ind = new ProgressIndicator();
-
-	/*
-	 * ACEASTA METODA TREBUIE MUTATA IN ALTA CLASA, dupa revizie amauntita, deoarece ea va mai fi
-	 * folosita si in PorcheProject si in altele.
-	 * 
-	 * Method that makes a thread (task) and ties it to a progress indicator. In
-	 * this thread the audio is retrieved from IBM server and it is also played.
-	 * 
-	 * @param input is of type String and the method actually plays the string
-	 * from a field
-	 */
-	public void playButtons(String input) throws IOException {
-
-		Task<Void> task = new Task<Void>() {
-			@Override
-			public Void call() throws IOException, UnsupportedAudioFileException {
-				updateProgress(-1, 10);
-				//parametrul eng trebuie schimbat de la Limba la Limba
-				player.playInputStream(gw.getWave(input, "notImplemented","eng"));
-				updateProgress(10, 10);
-				Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> updateProgress(0, 10)));
-				timeline.play();
-				return null;
-			}
-
-		};
-		ind.progressProperty().bind(task.progressProperty());
-		new Thread(task).start();
-
-	}
-
-	/*
-	 * Aceasta metoda trebuie mutata in alta clasa pentru ca va fi folosita de
-	 * mai multe clase ca si PorcheWindow si altele. Aceasta metoda va face play
-	 * la o resursa
-	 * 
-	 * @param input reprezinta textul care e scris pe buton. Acest text trebuie
-	 * sa fie identic cu fisierul .wav care e in resource eu voi folosi clasa
-	 * asta doar pentru butoanele cu numere
-	 */
-	public void playFromResourceButtons(String input) {
-		inProgressLabel.setText("In Progress...");
-		Task<Void> task = new Task<Void>() {
-			@Override
-			public Void call() throws IOException {
-				updateProgress(-1, 10);
-				gw.getWave(input, "notImplemented","eng");
-				player.playSound("/" + input + ".wav/");
-				updateProgress(10, 10);
-				Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> updateProgress(0, 10)));
-				timeline.play();
-				return null;
-			}
-
-		};
-		ind.progressProperty().bind(task.progressProperty());
-		new Thread(task).start();
-		inProgressLabel.setText("Audio Progress");
-	}
-
-	/*
-	 * Metoda care e legata de actiunea butonului Play de la sectiunea numbers.
-	 * In cazul in care sunt introduse litere, acestea nu vor putea fi
-	 * transformate in int, si se va arunca un Exception, prins de un Alert
-	 * prompt.
-	 */
-	@FXML
-	public void playCustomNumber() throws IOException {
-		int numere = 0;
-
-		try {
-			numere = Integer.parseInt(numberInputField.getText());
-
-		} catch (Exception e) {
-			e.getMessage();
-			Alert prompt = new Alert(AlertType.INFORMATION);
-			prompt.initOwner(mainApp.getPrimaryStage());
-			prompt.setHeaderText("Insert Number");
-			prompt.setTitle("Information Prompt");
-			prompt.setContentText("Please insert a number in the field!");
-			prompt.showAndWait();
-		}
-		playButtons(Integer.toString(numere));
-	}
 }
-
-// .
-// .
-// .
-// .
-// .
