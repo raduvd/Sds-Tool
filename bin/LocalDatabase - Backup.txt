@@ -1,0 +1,480 @@
+
+Destination input
+
+Enter address
+
+Country
+
+State
+
+City
+
+Place
+
+Street
+
+Intersection
+
+Road junction
+
+House number
+
+Accept destination
+
+Start route guidance
+
+New entry
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+Entree d'adresse
+
+Pays
+
+Ville
+
+Rue
+
+Croisement
+
+Numero de rue
+
+Accepter destination
+
+Demarrer guidage
+
+Nouvelle entree
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+Zieleingabe
+
+Land
+
+Ort
+
+Strasse
+
+Kreuzung
+
+Hausnummer
+
+Zeile ubernehmen
+
+Zielfuhrung starten
+
+Neue eingabe
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+Enter Country
+
+Enter City
+
+Enter Destination
+
+Special Destination
+
+In immediate vicinity
+
+In new town
+
+Correction
+
+Next page
+
+Previous page
+
+Start route guidance
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+Entrer pays
+
+Localité
+
+Entrer destination
+
+Destination speciale
+
+Proximite position actuelle
+
+Dans nouvelle localité
+
+Correction
+
+Page suivante
+
+Page precedente
+
+Lancer le guidage
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+Introduzca Pais
+
+Ingrese Ciudad
+
+Introducir destino
+
+Destinos especiales
+
+En inmediaciones
+
+En la ciudad nueva
+
+Corrección
+
+Página siguiente
+
+Página anterior
+
+Iniciar la guía de ruta
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+Land eingeben
+
+Stadt
+
+Ziel eingeben
+
+Sonderziel
+
+Standortumkreis
+
+In neuem Ort
+
+Korrektur
+
+Nächste Seite
+
+Vorige Seite
+
+Zielführung starten
+
+
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+#
+
+Enter address
+
+Input country
+
+City
+
+Street
+
+Scroll down
+
+Scroll up
+
+Correction
+
+Line 1
+
+Line 2
+
+Line 3
+
+Line 4
+
+Line 5
+
+Start route guidance
+
+POI
+
+Vehicle surroundings
+
+Free location input
+
+Previous destinations
+
+Stored destinations
+
+Country
+
+#
+
+Entree d'adresse
+
+Pays
+
+Ville
+
+Rue
+
+Page suivante
+
+Page precedente
+
+Corriger
+
+Ligne 1
+
+Ligne 2
+
+Ligne 3
+
+Ligne 4
+
+Ligne 5
+
+Démarrer guidage
+
+Destinations spéciales
+
+Environnment de véhicule
+
+Entree de ville libre
+
+Dernieres destinations
+
+Memoire des destinations
+
+Corriger
+
+#
+
+Entrada de direccion
+
+Pais
+
+Localidad
+
+Calle
+
+Pagina siguiente
+
+Pagina precedente
+
+Corregir
+
+Fila 1
+
+Fila 2
+
+Fila 3
+
+Fila 4
+
+Fila 5
+
+Iniciar guiado
+
+Destinos especiales
+
+Alrededores del vehículo
+
+Entrada libre de lugar
+
+Ultimos destinos
+
+Memoria de destinos
+
+#
+
+#
+
+Adresseingabe
+
+Land
+
+Ort
+
+Strasse
+
+Weiterblättern
+
+Zuruckblattern
+
+Korrigieren
+
+Zeile 1
+
+Zeile 2
+
+Zeile 3
+
+Zeile 4
+
+Zeile 5
+
+Zielfuhrung starten
+
+Sonderziele
+
+Fahrzeugumgebung
+
+Freie Ortseingabe
+
+Letzte Ziele
+
+Zielspeicher
+
+Korrigieren
+
+#
